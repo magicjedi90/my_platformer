@@ -1,0 +1,155 @@
+// Level 1 - Physics Platformer
+//
+// Controls: WASD to move, SPACE to jump, R to reset, ESC to exit
+//
+SceneData(
+    name: "Level 1",
+
+    physics: Some(PhysicsSettings(
+        gravity: (0.0, -980.0),
+        pixels_per_meter: 100.0,
+        timestep: 0.016666668,
+    )),
+
+    prefabs: {
+        "Player": PrefabData(
+            components: [
+                Transform2D(position: (0.0, 0.0), scale: (1.0, 1.0)),
+                Sprite(
+                    texture: "#white",
+                    color: (0.2, 0.4, 1.0, 1.0),
+                ),
+                RigidBody(
+                    body_type: Dynamic,
+                    linear_damping: 5.0,
+                    can_rotate: false,
+                    ccd_enabled: true,
+                ),
+                Collider(
+                    shape: Box(half_extents: (40.0, 40.0)),
+                    friction: 0.8,
+                ),
+                Behavior(PlayerPlatformer(
+                    move_speed: 120.0,
+                    jump_impulse: 420.0,
+                    jump_cooldown: 0.3,
+                )),
+            ],
+        ),
+
+        "Platform": PrefabData(
+            components: [
+                Transform2D(position: (0.0, 0.0), scale: (1.0, 1.0)),
+                Sprite(
+                    texture: "#white",
+                    color: (0.3, 0.3, 0.3, 1.0),
+                ),
+                RigidBody(body_type: Static),
+            ],
+        ),
+
+        "Obstacle": PrefabData(
+            components: [
+                Transform2D(position: (0.0, 0.0), scale: (1.0, 1.0)),
+                Sprite(
+                    texture: "images/wood_texture.png",
+                    color: (1.0, 1.0, 1.0, 1.0),
+                ),
+                RigidBody(
+                    body_type: Dynamic,
+                    linear_damping: 5.0,
+                    ccd_enabled: true,
+                ),
+                Collider(
+                    shape: Box(half_extents: (40.0, 40.0)),
+                    friction: 0.3,
+                    restitution: 0.2,
+                ),
+            ],
+        ),
+
+        "Marker": PrefabData(
+            components: [
+                Transform2D(position: (0.0, 0.0), scale: (0.25, 0.25)),
+                Sprite(
+                    texture: "#white",
+                    color: (1.0, 1.0, 0.0, 1.0),
+                    depth: 1.0,
+                ),
+            ],
+        ),
+    },
+
+    entities: [
+        EntityData(
+            name: Some("player"),
+            prefab: Some("Player"),
+            overrides: [
+                Transform2D(position: (-200.0, 100.0)),
+            ],
+            children: [
+                EntityData(
+                    name: Some("player_indicator"),
+                    prefab: Some("Marker"),
+                    overrides: [
+                        Transform2D(position: (0.0, 80.0), scale: (0.5, 0.5)),
+                        Sprite(texture: "#white", color: (0.0, 1.0, 0.0, 1.0), depth: 2.0),
+                    ],
+                ),
+            ],
+        ),
+
+        EntityData(
+            name: Some("ground"),
+            prefab: Some("Platform"),
+            overrides: [
+                Transform2D(position: (0.0, -250.0), scale: (10.0, 0.5)),
+            ],
+            components: [
+                Collider(
+                    shape: Box(half_extents: (400.0, 20.0)),
+                    friction: 0.8,
+                ),
+            ],
+        ),
+
+        EntityData(
+            name: Some("floating_platform"),
+            prefab: Some("Platform"),
+            overrides: [
+                Transform2D(position: (100.0, -50.0), scale: (3.0, 0.5)),
+                Sprite(texture: "#white", color: (0.4, 0.4, 0.4, 1.0)),
+            ],
+            components: [
+                Collider(
+                    shape: Box(half_extents: (120.0, 20.0)),
+                    friction: 0.8,
+                ),
+            ],
+        ),
+
+        EntityData(
+            name: Some("obstacle_1"),
+            prefab: Some("Obstacle"),
+            overrides: [
+                Transform2D(position: (-100.0, 0.0)),
+            ],
+        ),
+
+        EntityData(
+            name: Some("obstacle_2"),
+            prefab: Some("Obstacle"),
+            overrides: [
+                Transform2D(position: (20.0, 0.0)),
+            ],
+        ),
+
+        EntityData(
+            name: Some("obstacle_3"),
+            prefab: Some("Obstacle"),
+            overrides: [
+                Transform2D(position: (140.0, 0.0)),
+            ],
+        ),
+    ],
+)

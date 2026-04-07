@@ -1,0 +1,11 @@
+[package]
+name = "my_platformer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+engine_core = { path = "../../insiculous_2d/crates/engine_core" }
+ecs = { path = "../../insiculous_2d/crates/ecs" }
+glam = { version = "0.30.10", features = ["serde"] }
+log = "0.4"
+env_logger = "0.11"
