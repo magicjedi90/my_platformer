@@ -43,7 +43,7 @@ impl PlatformerGame {
                 physics.physics_world_mut().set_body_transform(
                     player, Vec2::new(-200.0, 100.0), 0.0,
                 );
-                physics.physics_world_mut().set_body_velocity(player, Vec2::ZERO, 0.0);
+                physics.set_velocity(player, Vec2::ZERO, 0.0);
             }
         }
     }
